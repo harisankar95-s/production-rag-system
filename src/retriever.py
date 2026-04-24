@@ -1,13 +1,13 @@
 from langchain_chroma import Chroma
 import logging
 from src.config import config
-from src.utils import get_embedding_model
+
 
 logger = logging.getLogger(__name__)
 
-def load_vectorstore():
+def load_vectorstore(embedding_model):
     logger.info(f"Loading {config.collection_name} vector store")
-    vector_store = Chroma(embedding_function= get_embedding_model(),collection_name=config.collection_name,persist_directory=config.chroma_persist_dir)
+    vector_store = Chroma(embedding_function= embedding_model,collection_name=config.collection_name,persist_directory=config.chroma_persist_dir)
     logger.info(f"Loaded vector store ")
     return vector_store
 
