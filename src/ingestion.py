@@ -44,11 +44,21 @@ def inspect_chunks(chunks, n=3):
         print(f"Content length: {len(chunk.page_content)}")
         print(f"Content preview:\n{chunk.page_content[:300]}")
 
+def filter_chunks(chunks):
+    logger.info('Cleaning chuncks')
+    longer_chunks = []
+    for chunk in chunks:
+        if len(chunk.page_content) >200:
+            longer_chunks.append(chunk)
+    logger.info(f"Filtered chunks: {len(chunks)} → {len(longer_chunks)} (removed {len(chunks) - len(longer_chunks)} junk chunks)")
+    return longer_chunks
+
 
 def ingest(file_path,embedding_model):
     documents = load_documents(file_path)
     documents = clean_documents(documents)
     chunks    = chunk_documents(documents)
+    chunks    = filter_chunks(chunks)
     # inspect_chunks(chunks)
     vectorstore      = build_vectorstore(chunks,embedding_model)
     return vectorstore

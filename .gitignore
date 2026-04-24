@@ -1,4 +1,73 @@
+# Virtual environments
 venv/
+.venv/
+env/
+.env/
+ENV/
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Python cache
 __pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+*.pyd
+.Python
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+*.egg
+.eggs/
+wheels/
+
+# Jupyter notebooks
+.ipynb_checkpoints/
+*.ipynb
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+*.cover
+coverage.xml
+
+# Linting / type checking
+.mypy_cache/
+.ruff_cache/
+
+# IDEs
+.vscode/
+.idea/
+*.suo
+*.user
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# PDF and document files (data ingestion sources)
+data/*.pdf
+data/*.docx
+data/*.doc
+data/*.xlsx
+data/*.xls
+data/*.csv
+*.pdf
+
+# Vector store / ChromaDB
 chroma_db/
-*.pyc
+
+# Logs
+*.log
+logs/
+
+# Model cache (HuggingFace, etc.)
+.cache/
+models/
