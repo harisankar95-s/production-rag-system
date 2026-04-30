@@ -24,4 +24,6 @@ class Config:
 
     rerank_model: str        = os.getenv("RERANK_MODEL", "cross-encoder/ms-marco-MiniLM-L-6-v2")
 
+    top_n_chunks: int         = int(os.getenv("top_n_chunks", "3"))
+
 config = Config()

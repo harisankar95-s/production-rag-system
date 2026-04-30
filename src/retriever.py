@@ -69,8 +69,8 @@ def rerank(model, query, chunks):
     chunk_score_pairs = list(zip(chunks, scores))
     sorted_pairs = sorted(chunk_score_pairs, key=lambda x: x[1], reverse=True)
     reranked_chunks = [chunk for chunk, score in sorted_pairs]
-    logger.info(f"Re-ranking complete, returning top {config.retrieval_k} chunks")
-    return reranked_chunks[:config.retrieval_k]
+    logger.info(f"Re-ranking complete, returning top {config.top_n_chunks} chunks")
+    return reranked_chunks[:config.top_n_chunks]
 
 
 
