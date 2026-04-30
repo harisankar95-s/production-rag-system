@@ -22,4 +22,6 @@ class Config:
 
     data_dir: str            = os.getenv("DATA_DIR", "./data")
 
+    rerank_model: str        = os.getenv("RERANK_MODEL", "cross-encoder/ms-marco-MiniLM-L-6-v2")
+
 config = Config()

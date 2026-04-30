@@ -1,6 +1,7 @@
 import logging
 from src.config import config
 from langchain_huggingface import HuggingFaceEmbeddings
+from sentence_transformers import CrossEncoder
 
 logger = logging.getLogger(__name__)
 
@@ -18,4 +19,10 @@ def print_retrieved_chunks(docs):
         print(doc.page_content[:500])
         print("-" * 40)
     print("======================================\n")
+
+def get_rerank_model():
+    logger.info(f"Loading rerank model: {config.rerank_model}")
+    model = CrossEncoder(config.rerank_model)
+    logger.info("Rerank model loaded")
+    return model
 

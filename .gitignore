@@ -71,3 +71,6 @@ logs/
 # Model cache (HuggingFace, etc.)
 .cache/
 models/
+
+test*.py
+temp*.py
