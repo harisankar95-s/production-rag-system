@@ -1,0 +1,22 @@
+[
+    {
+        "question": "What is overfitting in machine learning?",
+        "ground_truth": "Overfitting occurs when a model performs well on training data but generalizes poorly to new unseen data. It happens when the model is too complex relative to the amount and noisiness of the training data."
+    },
+    {
+        "question": "What is the difference between supervised and unsupervised learning?",
+        "ground_truth": "In supervised learning the training data includes desired solutions called labels. In unsupervised learning the training data is unlabeled and the system tries to learn without a teacher."
+    },
+    {
+        "question": "What is gradient descent?",
+        "ground_truth": "Gradient descent is an optimization algorithm that iteratively adjusts model parameters to minimize a cost function by moving in the direction of the steepest descent of the gradient."
+    },
+    {
+        "question": "What is the difference between bagging and boosting?",
+        "ground_truth": "Bagging trains multiple models in parallel on random subsets of data and aggregates their predictions. Boosting trains models sequentially where each model tries to correct the errors of the previous one."
+    },
+    {
+        "question": "What is cross-validation?",
+        "ground_truth": "Cross-validation is a technique to evaluate model performance by splitting data into multiple folds, training on some folds and validating on the remaining fold, rotating until every fold has been used for validation."
+    }
+]
