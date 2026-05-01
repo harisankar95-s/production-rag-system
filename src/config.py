@@ -26,4 +26,7 @@ class Config:
 
     top_n_chunks: int         = int(os.getenv("top_n_chunks", "3"))
 
+    google_api_key: str = os.getenv("GOOGLE_API_KEY", "")
+    gemini_model: str = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
+
 config = Config()
