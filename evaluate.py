@@ -4,16 +4,11 @@ import logging
 from datasets import Dataset
 from ragas import evaluate
 from ragas.metrics import Faithfulness, AnswerRelevancy, ContextPrecision
+from langchain_google_genai import ChatGoogleGenerativeAI,GoogleGenerativeAIEmbeddings
 from ragas.llms import LangchainLLMWrapper
 from ragas.embeddings import LangchainEmbeddingsWrapper
 from ragas.run_config import RunConfig
-
-
-from langchain_ollama import OllamaLLM
-from langchain_google_genai import ChatGoogleGenerativeAI, GoogleGenerativeAIEmbeddings
-
-
-from src.utils import get_embedding_model, get_rerank_model
+from src.utils import get_embedding_model, get_rerank_model,get_llm,get_eval_llm
 from src.retriever import load_vectorstore, get_hybrid_retriever
 from src.pipeline import ask
 from src.config import config
@@ -41,7 +36,7 @@ def run_evaluation():
     retriever = get_hybrid_retriever(vectorstore)
 
 
-    generator_llm = OllamaLLM(model=config.ollama_model, base_url=config.ollama_base_url)
+    generator_llm = get_llm()
 
     test_set = load_test_set("data/test_set.json")
 
@@ -64,7 +59,9 @@ def run_evaluation():
         retrieved_contexts.append([chunk.page_content for chunk in chunks])
         references.append(ground_truth)
 
-        print(f"Processed: {question[:60]}...")
+        print(f"\nQ: {question}")
+        print(f"A: {answer}")
+        print(f"Chunks used: {len(chunks)}\n")
 
 
     data = {
@@ -75,12 +72,7 @@ def run_evaluation():
     }
     dataset = Dataset.from_dict(data)
 
-    evaluator_llm = LangchainLLMWrapper(
-        ChatGoogleGenerativeAI(
-            model=config.gemini_model,
-            google_api_key=config.google_api_key
-        )
-    )
+    evaluator_llm = LangchainLLMWrapper(get_eval_llm())
 
     evaluator_embeddings = LangchainEmbeddingsWrapper(
         GoogleGenerativeAIEmbeddings(

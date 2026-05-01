@@ -1,10 +1,10 @@
 from src.ingestion import ingest
 from src.retriever import load_vectorstore,get_retriever,get_hybrid_retriever
-from src.pipeline import build_pipeline,ask
+from src.pipeline import ask
 from src.config import config
 
 import logging
-from src.utils import get_embedding_model,get_rerank_model
+from src.utils import get_embedding_model,get_rerank_model,get_llm
 from src.utils import print_retrieved_chunks
 
 logging.basicConfig(
@@ -22,7 +22,7 @@ if __name__ == "__main__":
     rerank_model = get_rerank_model()
     vector_store = load_vectorstore(embedding_model)
     retriever = get_hybrid_retriever(vector_store)
-    llm = build_pipeline()
+    llm = get_llm()
 
     question = "What is the difference between supervised and unsupervised learning?"
 
