@@ -6,9 +6,11 @@ load_dotenv()
 
 @dataclass
 class Config:
-    # LLM
     ollama_model: str        = os.getenv("OLLAMA_MODEL", "llama3.2")
     ollama_base_url: str     = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
+
+    llm_provider: str        = os.getenv("LLM_PROVIDER", "ollama")
+    eval_llm_provider: str   = os.getenv("EVAL_LLM_PROVIDER", "gemini")
 
     embedding_model: str     = os.getenv("EMBEDDING_MODEL", "all-MiniLM-L6-v2")
 
@@ -17,16 +19,17 @@ class Config:
 
     chunk_size: int          = int(os.getenv("CHUNK_SIZE", "500"))
     chunk_overlap: int       = int(os.getenv("CHUNK_OVERLAP", "50"))
+    top_n_chunks: int        = int(os.getenv("TOP_N_CHUNKS", "5"))
 
-    retrieval_k: int         = int(os.getenv("RETRIEVAL_K", "3"))
+    retrieval_k: int         = int(os.getenv("RETRIEVAL_K", "10"))
+    top_n_chunks: int        = int(os.getenv("TOP_N_CHUNKS", "5"))
 
     data_dir: str            = os.getenv("DATA_DIR", "./data")
 
     rerank_model: str        = os.getenv("RERANK_MODEL", "cross-encoder/ms-marco-MiniLM-L-6-v2")
 
-    top_n_chunks: int         = int(os.getenv("top_n_chunks", "3"))
+    google_api_key: str      = os.getenv("GOOGLE_API_KEY", "")
+    gemini_model: str        = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
 
-    google_api_key: str = os.getenv("GOOGLE_API_KEY", "")
-    gemini_model: str = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
 
 config = Config()
