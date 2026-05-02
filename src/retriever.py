@@ -72,6 +72,51 @@ def rerank(model, query, chunks):
     logger.info(f"Re-ranking complete, returning top {config.top_n_chunks} chunks")
     return reranked_chunks[:config.top_n_chunks]
 
+class MultiQueryHybridRetriever(BaseRetriever):
+    hybrid_retriever: HybridRetriever
+    llm: any
+    n_variants: int = 3
+
+    def _generate_variants(self, query: str) -> list:
+        prompt = f"""Generate {self.n_variants} different versions of this question \
+to improve document retrieval. Each version should approach the same \
+information need from a different angle.
+Return only the questions, one per line, no numbering or explanation.
+
+Original question: {query}"""
+        response = self.llm.invoke(prompt)
+        lines = response.content.strip().split('\n')
+        variants = [l.strip() for l in lines if l.strip()]
+        logger.info(f"Generated {len(variants)} query variants")
+        return variants[:self.n_variants]
+
+    def _get_relevant_documents(
+        self, query: str, *, run_manager: CallbackManagerForRetrieverRun
+    ):
+        variants = self._generate_variants(query)
+        all_queries = [query] + variants
+
+        seen = set()
+        unique_docs = []
+        for q in all_queries:
+            docs = self.hybrid_retriever.invoke(q)
+            for doc in docs:
+                if doc.page_content not in seen:
+                    seen.add(doc.page_content)
+                    unique_docs.append(doc)
+
+        logger.info(f"Multi-query retrieved {len(unique_docs)} unique chunks from {len(all_queries)} queries")
+        return unique_docs
+    
+def get_multi_query_retriever(vectorstore, llm):
+    logger.info("Building multi-query hybrid retriever")
+    hybrid = get_hybrid_retriever(vectorstore)
+    return MultiQueryHybridRetriever(
+        hybrid_retriever=hybrid,
+        llm=llm,
+        n_variants=config.multi_query_variants
+    )
+
 
 
 
