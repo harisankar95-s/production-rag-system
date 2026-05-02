@@ -9,7 +9,7 @@ from ragas.llms import LangchainLLMWrapper
 from ragas.embeddings import LangchainEmbeddingsWrapper
 from ragas.run_config import RunConfig
 from src.utils import get_embedding_model, get_rerank_model,get_llm,get_eval_llm
-from src.retriever import load_vectorstore, get_hybrid_retriever
+from src.retriever import load_vectorstore, get_hybrid_retriever,get_multi_query_retriever
 from src.pipeline import ask
 from src.config import config
 
@@ -33,10 +33,8 @@ def run_evaluation():
     rerank_model = get_rerank_model()
 
     vectorstore = load_vectorstore(embedding_model)
-    retriever = get_hybrid_retriever(vectorstore)
-
-
     generator_llm = get_llm()
+    retriever = get_multi_query_retriever(vectorstore,generator_llm)
 
     test_set = load_test_set("data/test_set.json")
 
