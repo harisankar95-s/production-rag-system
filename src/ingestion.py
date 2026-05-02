@@ -4,13 +4,18 @@ from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_chroma import Chroma
 from src.config import config
 import unicodedata
+import os
 
 logger = logging.getLogger(__name__)
 
-def load_documents(file_path, encoding='utf-8'):
-    logger.info(f"Loading documents from: {file_path}")
-    documents = PyPDFLoader(file_path)
-    documents = documents.load()
+def load_documents(folder_path, encoding='utf-8'):
+    logger.info(f"Loading documents from: {folder_path}")
+    documents = []
+    for file in os.listdir(folder_path):
+        if file.endswith('.pdf'):
+            doc =PyPDFLoader(os.path.join(folder_path, file))
+            doc = doc.load()
+            documents.extend(doc)
     logger.info(f"Loaded {len(documents)} document(s)")
     return documents
 
@@ -54,8 +59,8 @@ def filter_chunks(chunks):
     return longer_chunks
 
 
-def ingest(file_path,embedding_model):
-    documents = load_documents(file_path)
+def ingest(folder_path,embedding_model):
+    documents = load_documents(folder_path)
     documents = clean_documents(documents)
     chunks    = chunk_documents(documents)
     chunks    = filter_chunks(chunks)
