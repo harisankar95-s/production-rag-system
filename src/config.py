@@ -22,7 +22,7 @@ class Config:
     top_n_chunks: int        = int(os.getenv("TOP_N_CHUNKS", "5"))
 
     retrieval_k: int         = int(os.getenv("RETRIEVAL_K", "10"))
-    top_n_chunks: int        = int(os.getenv("TOP_N_CHUNKS", "5"))
+    multi_query_variants: int    = int(os.getenv("MULTI_QUERY_VARIANTS", "3"))
 
     data_dir: str            = os.getenv("DATA_DIR", "./data")
 

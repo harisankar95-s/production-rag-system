@@ -18,5 +18,25 @@
     {
         "question": "What is cross-validation?",
         "ground_truth": "Cross-validation is a technique to evaluate model performance by splitting data into multiple folds, training on some folds and validating on the remaining fold, rotating until every fold has been used for validation."
+    },
+    {
+        "question": "What is regularization and why is it used?",
+        "ground_truth": "Regularization adds a penalty term to the cost function to constrain model complexity and reduce overfitting. L1 regularization shrinks some coefficients to exactly zero enabling feature selection. L2 regularization shrinks all coefficients toward zero but never exactly zero."
+    },
+    {
+        "question": "How does a Support Vector Machine work?",
+        "ground_truth": "A Support Vector Machine finds the decision boundary that maximizes the margin between classes. The instances closest to the boundary are called support vectors. SVM can handle nonlinear classification using the kernel trick which maps inputs to a higher dimensional space."
+    },
+    {
+        "question": "How does a Decision Tree make predictions?",
+        "ground_truth": "A Decision Tree makes predictions by learning a set of if-else decision rules from the training data. At each node it splits on the feature and threshold that best separates the classes using measures like Gini impurity or entropy. It follows the tree from root to leaf to predict."
+    },
+    {
+        "question": "What is dimensionality reduction and what is PCA?",
+        "ground_truth": "Dimensionality reduction reduces the number of features in a dataset while preserving as much information as possible. Principal Component Analysis finds the axes of greatest variance in the data called principal components and projects the data onto a lower dimensional space along those axes."
+    },
+    {
+        "question": "What is the difference between K-Means and DBSCAN clustering?",
+        "ground_truth": "K-Means partitions data into a fixed number of clusters by iteratively assigning points to the nearest centroid and updating centroids. It assumes spherical clusters and requires specifying k upfront. DBSCAN groups points that are closely packed together and marks points in low density regions as outliers. It does not require specifying the number of clusters."
     }
 ]

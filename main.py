@@ -1,5 +1,5 @@
 from src.ingestion import ingest
-from src.retriever import load_vectorstore,get_retriever,get_hybrid_retriever
+from src.retriever import load_vectorstore,get_retriever,get_hybrid_retriever,get_multi_query_retriever
 from src.pipeline import ask
 from src.config import config
 
@@ -21,8 +21,9 @@ if __name__ == "__main__":
     embedding_model = get_embedding_model()
     rerank_model = get_rerank_model()
     vector_store = load_vectorstore(embedding_model)
-    retriever = get_hybrid_retriever(vector_store)
     llm = get_llm()
+    retriever = get_multi_query_retriever(vector_store,llm)
+    
 
     question = "What is the difference between supervised and unsupervised learning?"
 
