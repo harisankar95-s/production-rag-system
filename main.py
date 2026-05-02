@@ -25,7 +25,7 @@ if __name__ == "__main__":
     retriever = get_multi_query_retriever(vector_store,llm)
     
 
-    question = "What is the difference between supervised and unsupervised learning?"
+    question = "What is the moral of the story about the hare and the tortoise?"
 
     answer,relavent_chunks  = ask(llm, retriever, rerank_model, question)
 

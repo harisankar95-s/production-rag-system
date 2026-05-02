@@ -15,4 +15,4 @@ logging.getLogger("sentence_transformers").setLevel(logging.WARNING)
 
 if __name__ == "__main__":
     embedding_model = get_embedding_model()
-    ingest(f"{config.data_dir}/ml_ebook.pdf", embedding_model)
+    ingest(config.data_dir, embedding_model)
