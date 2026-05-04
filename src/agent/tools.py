@@ -19,7 +19,11 @@ def rag_search(query: str) -> str:
         _rag_components['rerank_model'],
         query
     )
-    return answer
+    pages = sorted(set([
+        chunk.metadata.get('page', 'N/A') 
+        for chunk in chunks
+    ]))
+    return f"{answer}\n\nSources: Pages {pages}"
 
 @tool
 def web_search(query: str) -> str:
