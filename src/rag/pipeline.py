@@ -1,7 +1,7 @@
 import logging
 from src.config import config
-from src.retriever import rerank
-from src.prompts import RAG_PROMPT
+from src.rag.retriever import rerank
+from src.rag.prompts import RAG_PROMPT
 
 logger = logging.getLogger(__name__)
 

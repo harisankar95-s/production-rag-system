@@ -1,7 +1,8 @@
-from src.ingestion import ingest
-from src.retriever import load_vectorstore, get_multi_query_retriever
+from src.rag.ingestion import ingest
+from src.rag.retriever import load_vectorstore, get_multi_query_retriever
+from src.agent.graph import build_graph
+from src.agent.tools import init_rag_components
 from src.config import config
-from src.agent import init_rag_components, build_graph
 from langchain_core.messages import HumanMessage
 
 import logging
@@ -30,20 +31,9 @@ if __name__ == "__main__":
 
     graph = build_graph(llm,doc_details)
 
-    # question = "What is the latest version of LangGraph released in 2025?"
-
-    # response = graph.invoke({"messages": [HumanMessage(content=question)]})
-    # final = response['messages'][-1].content
-    # if isinstance(final, list):
-    #     print(final[0]['text'])
-    # else:
-    #     print(final)
     questions = [
-        "What is the moral of the story about the hare and the tortoise?",
-        "What is gradient descent?",
-        "What is the latest version of Python released in 2025?",
-        "Who won the IPL 2025?",
-        "What is overfitting in machine learning?",
+        "Who won the IPL 2025? and what is difference betwwen supervised and unsupervised learning?",
+
     ]
 
     for question in questions:

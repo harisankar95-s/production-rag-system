@@ -1,6 +1,6 @@
 import os
 import logging
-from src.ingestion import ingest
+from src.rag.ingestion import ingest
 from src.utils import get_embedding_model,get_llm
 from src.config import config
 
