@@ -8,6 +8,7 @@ from langchain_core.messages import HumanMessage
 import logging
 from src.utils import get_embedding_model, get_rerank_model, get_llm,load_json
 import os
+from langchain_core.messages import AIMessage
 
 logging.basicConfig(
     level=logging.INFO,
@@ -32,17 +33,24 @@ if __name__ == "__main__":
     graph = build_graph(llm,doc_details)
 
     questions = [
-        "Who won the IPL 2025? and what is difference betwwen supervised and unsupervised learning?",
-
+        "Who won the IPL 2025? and what is the difference between supervised and unsupervised learning?",
+        "What is gradient descent and who is the current CEO of Google?",
+        "Explain overfitting in machine learning and what is the latest iPhone model?",
+        "What is the moral of the hare and tortoise story and who won the 2024 US election?",
     ]
 
-    for question in questions:
-        print(f"\n{'='*60}")
-        print(f"Q: {question}")
-        print(f"{'='*60}")
-        response = graph.invoke({"messages": [HumanMessage(content=question)]})
-        final = response['messages'][-1].content
-        if isinstance(final, list):
-            print(final[0]['text'])
-        else:
-            print(final)
+
+    for message, metadata in graph.stream(
+        {"messages": [HumanMessage(content=questions)]},
+        stream_mode="messages"
+    ):
+        if (isinstance(message, AIMessage) and 
+            message.content and 
+            not message.tool_calls and
+            metadata.get("langgraph_node") == "agent"):
+            content = message.content
+            if isinstance(content, list):
+                print(content[0].get('text', ''), end="", flush=True)
+            else:
+                print(content, end="", flush=True)
+    print()
