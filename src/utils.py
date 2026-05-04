@@ -4,6 +4,7 @@ from langchain_huggingface import HuggingFaceEmbeddings
 from sentence_transformers import CrossEncoder
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_ollama import OllamaLLM
+import json
 
 logger = logging.getLogger(__name__)
 
@@ -50,6 +51,10 @@ def get_eval_llm():
         raise ValueError(f"Unsupported LLM provider: {config.eval_llm_provider}")
     logger.info(f"Eval LLM loaded: {config.eval_llm_provider}")
     return llm
+
+def load_json(path: str):
+    with open(path, 'r') as f:
+        return json.load(f)
 
 
 

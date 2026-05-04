@@ -5,7 +5,8 @@ from src.agent import init_rag_components, build_graph
 from langchain_core.messages import HumanMessage
 
 import logging
-from src.utils import get_embedding_model, get_rerank_model, get_llm
+from src.utils import get_embedding_model, get_rerank_model, get_llm,load_json
+import os
 
 logging.basicConfig(
     level=logging.INFO,
@@ -24,8 +25,10 @@ if __name__ == "__main__":
     retriever = get_multi_query_retriever(vector_store, llm)
 
     init_rag_components(llm, retriever, rerank_model)
+    doc_details = load_json(os.path.join(config.data_dir, 'document_summaries.json'))
 
-    graph = build_graph(llm)
+
+    graph = build_graph(llm,doc_details)
 
     # question = "What is the latest version of LangGraph released in 2025?"
 
