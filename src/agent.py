@@ -1,7 +1,7 @@
 from langgraph.graph import StateGraph, START, END, MessagesState
 from langgraph.prebuilt import ToolNode
 from langchain_core.tools import tool
-from langchain_core.messages import HumanMessage
+from langchain_core.messages import HumanMessage,SystemMessage
 
 from src.pipeline import ask
 from langchain_community.tools import DuckDuckGoSearchRun
@@ -33,11 +33,24 @@ def web_search(query: str) -> str:
     search = DuckDuckGoSearchRun()
     return search.run(query)
 
-def create_agent(llm):
+def create_agent(llm, summaries):
     llm_with_tools = llm.bind_tools([rag_search, web_search])
     
+    doc_context = "\n".join([f"- {name}: {summary}" 
+                             for name, summary in summaries.items()])
+    
+    system_prompt = f"""You are a helpful document assistant.
+
+The user has the following documents available:
+{doc_context}
+
+Use rag_search for questions that can be answered from these documents.
+Use web_search for current events or information not in these documents.
+If unsure, prefer rag_search first."""
+
     def agent_node(state: MessagesState):
-        response = llm_with_tools.invoke(state['messages'])
+        messages = [SystemMessage(content=system_prompt)] + state['messages']
+        response = llm_with_tools.invoke(messages)
         return {'messages': [response]}
     
     return agent_node
@@ -48,8 +61,8 @@ def should_continue(state: MessagesState):
         return 'tools'
     return END
 
-def build_graph(llm):
-    agent_node = create_agent(llm)
+def build_graph(llm,summaries):
+    agent_node = create_agent(llm,summaries)
     tools = [rag_search, web_search]
     
     graph = StateGraph(MessagesState)

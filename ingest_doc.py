@@ -1,7 +1,7 @@
 import os
 import logging
 from src.ingestion import ingest
-from src.utils import get_embedding_model
+from src.utils import get_embedding_model,get_llm
 from src.config import config
 
 os.environ['TRANSFORMERS_VERBOSITY'] = 'error'
@@ -15,4 +15,5 @@ logging.getLogger("sentence_transformers").setLevel(logging.WARNING)
 
 if __name__ == "__main__":
     embedding_model = get_embedding_model()
-    ingest(config.data_dir, embedding_model)
+    llm = get_llm()
+    ingest(config.data_dir, embedding_model,llm)
