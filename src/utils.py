@@ -55,6 +55,12 @@ def get_eval_llm():
 def load_json(path: str):
     with open(path, 'r') as f:
         return json.load(f)
+    
+def extract_content(response) -> str:
+    content = response.content
+    if isinstance(content, list):
+        return content[0].get('text', '') if content else ''
+    return content
 
 
 
