@@ -3,6 +3,7 @@ from langgraph.prebuilt import ToolNode
 from langchain_core.messages import SystemMessage
 from src.agent.tools import rag_search, web_search
 from src.agent.prompts import build_system_prompt
+from src.agent.memory import get_checkpointer
 import logging
 
 logger = logging.getLogger(__name__)
@@ -37,6 +38,6 @@ def build_graph(llm, summaries):
     graph.add_node("tools", ToolNode(tools))
     graph.add_edge(START, "agent")
     graph.add_conditional_edges("agent", should_continue)
+    checkpointer = get_checkpointer()
     graph.add_edge("tools", "agent")
-
-    return graph.compile()
+    return graph.compile(checkpointer=checkpointer)

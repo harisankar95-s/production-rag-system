@@ -9,14 +9,16 @@ import logging
 from src.utils import get_embedding_model, get_rerank_model, get_llm,load_json
 import os
 from langchain_core.messages import AIMessage
+import uuid
 
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s | %(name)s | %(levelname)s | %(message)s"
-)
+# logging.basicConfig(
+#     level=logging.INFO,
+#     format="%(asctime)s | %(name)s | %(levelname)s | %(message)s"
+# )
 logging.getLogger("httpx").setLevel(logging.WARNING)
 logging.getLogger("sentence_transformers").setLevel(logging.WARNING)
 logging.getLogger("transformers").setLevel(logging.ERROR)
+
 
 
 if __name__ == "__main__":
@@ -32,42 +34,33 @@ if __name__ == "__main__":
 
     graph = build_graph(llm,doc_details)
 
-    # questions = [
-    #     "Who won the IPL 2025? and what is the difference between supervised and unsupervised learning?",
-    #     "What is gradient descent and who is the current CEO of Google?",
-    #     "Explain overfitting in machine learning and what is the latest iPhone model?",
-    #     "What is the moral of the hare and tortoise story and who won the 2024 US election?",
-    # ]
+    thread_id = str(uuid.uuid4())
+    run_config = {"configurable": {"thread_id": thread_id}}
 
-
-    # for message, metadata in graph.stream(
-    #     {"messages": [HumanMessage(content=questions)]},
-    #     stream_mode="messages"
-    # ):
-    #     if (isinstance(message, AIMessage) and 
-    #         message.content and 
-    #         not message.tool_calls and
-    #         metadata.get("langgraph_node") == "agent"):
-    #         content = message.content
-    #         if isinstance(content, list):
-    #             print(content[0].get('text', ''), end="", flush=True)
-    #         else:
-    #             print(content, end="", flush=True)
-    # print()
-
-    question = "Who won the IPL 2025? and what is the difference between supervised and unsupervised learning?"
-
-    for message, metadata in graph.stream(
+    def stream_response(question):
+        for message, metadata in graph.stream(
         {"messages": [HumanMessage(content=question)]},
-        stream_mode="messages"
-    ):
-        if (isinstance(message, AIMessage) and 
+        run_config,
+        stream_mode="messages"):
+            if (isinstance(message, AIMessage) and 
             message.content and 
             not message.tool_calls and
             metadata.get("langgraph_node") == "agent"):
-            content = message.content
-            if isinstance(content, list):
-                print(content[0].get('text', ''), end="", flush=True)
-            else:
-                print(content, end="", flush=True)
-    print()
+                content = message.content
+                if isinstance(content, list):
+                    print(content[0].get('text', ''), end="", flush=True)
+                else:
+                    print(content, end="", flush=True)
+
+        print()
+
+    while True:
+        question = input("You: ")
+        if question.lower() in ["exit", "quit"]:
+            print("Ending session.")
+            break
+        stream_response(question)
+  
+
+
+
