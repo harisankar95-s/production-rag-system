@@ -6,6 +6,7 @@ from langchain_community.retrievers import BM25Retriever
 from langchain_core.retrievers import BaseRetriever
 from langchain_core.callbacks import CallbackManagerForRetrieverRun
 from langchain_core.documents import Document
+from src.utils import extract_content
 
 logger = logging.getLogger(__name__)
 
@@ -85,7 +86,7 @@ Return only the questions, one per line, no numbering or explanation.
 
 Original question: {query}"""
         response = self.llm.invoke(prompt)
-        lines = response.content.strip().split('\n')
+        lines = extract_content(response).strip().split('\n')
         variants = [l.strip() for l in lines if l.strip()]
         logger.info(f"Generated {len(variants)} query variants")
         return variants[:self.n_variants]

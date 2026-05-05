@@ -6,6 +6,8 @@ from src.config import config
 import unicodedata
 import os
 import json
+from src.utils import extract_content
+
 
 logger = logging.getLogger(__name__)
 
@@ -70,7 +72,7 @@ def _map_summarize(llm, chunks, batch_size=10):
 
 One sentence summary:"""
         response = llm.invoke(prompt)
-        partial_summaries.append(response.content)
+        partial_summaries.append(extract_content(response))
     return partial_summaries
 
 def _reduce_summarize(llm, partial_summaries):
@@ -82,7 +84,7 @@ describing what the entire document is about:
 
 One sentence summary:"""
     response = llm.invoke(prompt)
-    return response.content  
+    return  extract_content(response)
 
 def generate_summary(llm, chunks, batch_size=10):
     partial_summaries = _map_summarize(llm, chunks, batch_size=batch_size)

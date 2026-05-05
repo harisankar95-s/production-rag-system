@@ -32,16 +32,33 @@ if __name__ == "__main__":
 
     graph = build_graph(llm,doc_details)
 
-    questions = [
-        "Who won the IPL 2025? and what is the difference between supervised and unsupervised learning?",
-        "What is gradient descent and who is the current CEO of Google?",
-        "Explain overfitting in machine learning and what is the latest iPhone model?",
-        "What is the moral of the hare and tortoise story and who won the 2024 US election?",
-    ]
+    # questions = [
+    #     "Who won the IPL 2025? and what is the difference between supervised and unsupervised learning?",
+    #     "What is gradient descent and who is the current CEO of Google?",
+    #     "Explain overfitting in machine learning and what is the latest iPhone model?",
+    #     "What is the moral of the hare and tortoise story and who won the 2024 US election?",
+    # ]
 
+
+    # for message, metadata in graph.stream(
+    #     {"messages": [HumanMessage(content=questions)]},
+    #     stream_mode="messages"
+    # ):
+    #     if (isinstance(message, AIMessage) and 
+    #         message.content and 
+    #         not message.tool_calls and
+    #         metadata.get("langgraph_node") == "agent"):
+    #         content = message.content
+    #         if isinstance(content, list):
+    #             print(content[0].get('text', ''), end="", flush=True)
+    #         else:
+    #             print(content, end="", flush=True)
+    # print()
+
+    question = "Who won the IPL 2025? and what is the difference between supervised and unsupervised learning?"
 
     for message, metadata in graph.stream(
-        {"messages": [HumanMessage(content=questions)]},
+        {"messages": [HumanMessage(content=question)]},
         stream_mode="messages"
     ):
         if (isinstance(message, AIMessage) and 
