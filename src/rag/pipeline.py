@@ -2,6 +2,7 @@ import logging
 from src.config import config
 from src.rag.retriever import rerank
 from src.rag.prompts import RAG_PROMPT
+from src.utils import extract_content
 
 logger = logging.getLogger(__name__)
 
@@ -16,7 +17,6 @@ def ask(llm, retriever, rerank_model, question):
     
     answer = llm.invoke(prompt)
     if hasattr(answer, 'content'):
-        answer = answer.content
-    logger.info("Received LLM output")
+        answer = extract_content(answer)
     
     return answer, reranked_chunks
