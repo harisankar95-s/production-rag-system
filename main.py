@@ -11,10 +11,10 @@ import os
 from langchain_core.messages import AIMessage
 import uuid
 
-# logging.basicConfig(
-#     level=logging.INFO,
-#     format="%(asctime)s | %(name)s | %(levelname)s | %(message)s"
-# )
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s | %(name)s | %(levelname)s | %(message)s"
+)
 logging.getLogger("httpx").setLevel(logging.WARNING)
 logging.getLogger("sentence_transformers").setLevel(logging.WARNING)
 logging.getLogger("transformers").setLevel(logging.ERROR)
@@ -56,11 +56,12 @@ if __name__ == "__main__":
 
     while True:
         question = input("You: ")
+        if not question.strip(): 
+            continue
         if question.lower() in ["exit", "quit"]:
             print("Ending session.")
             break
         stream_response(question)
-  
 
 
 
