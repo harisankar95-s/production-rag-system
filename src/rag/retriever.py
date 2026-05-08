@@ -69,9 +69,10 @@ def rerank(model, query, chunks):
     scores = model.predict(pairs)
     chunk_score_pairs = list(zip(chunks, scores))
     sorted_pairs = sorted(chunk_score_pairs, key=lambda x: x[1], reverse=True)
+    top_score = sorted_pairs[0][1]  # highest score after sorting
     reranked_chunks = [chunk for chunk, score in sorted_pairs]
     logger.info(f"Re-ranking complete, returning top {config.top_n_chunks} chunks")
-    return reranked_chunks[:config.top_n_chunks]
+    return reranked_chunks[:config.top_n_chunks],top_score
 
 class MultiQueryHybridRetriever(BaseRetriever):
     hybrid_retriever: HybridRetriever
