@@ -6,7 +6,7 @@ from src.config import config
 import unicodedata
 import os
 import json
-from src.utils import extract_content
+from src.utils.utils import extract_content
 
 
 logger = logging.getLogger(__name__)
