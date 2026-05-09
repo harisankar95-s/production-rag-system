@@ -1,7 +1,7 @@
 import os
 import logging
 from src.rag.ingestion import ingest
-from src.utils import get_embedding_model,get_llm
+from src.utils.utils import get_embedding_model,get_llm
 from src.config import config
 
 os.environ['TRANSFORMERS_VERBOSITY'] = 'error'

@@ -3,6 +3,8 @@ from langchain_community.tools import DuckDuckGoSearchRun
 from src.rag.pipeline import ask
 from pydantic import BaseModel
 from typing import List
+from src.utils.rag_components import _rag_components
+from src.utils.search_components import web_search_run
 
 class RAGSearchResult(BaseModel):
     answer: str
@@ -13,12 +15,7 @@ class RAGSearchResult(BaseModel):
     def __str__(self):
         return f"Answer: {self.answer}\nSource: {self.source}\nPages: {self.pages}\nConfidence: {self.confidence}"
 
-_rag_components = {}
 
-def init_rag_components(llm, retriever, rerank_model):
-    _rag_components['llm'] = llm
-    _rag_components['retriever'] = retriever
-    _rag_components['rerank_model'] = rerank_model
 
 @tool
 def rag_search(query: str) -> RAGSearchResult:
@@ -55,15 +52,10 @@ not mentioned in any document summary."""
     except Exception as e:
         return f"RAG search failed: {str(e)}. Try web search instead."
 
-
 @tool
 def web_search(query: str) -> str:
     """Use this tool for questions about current events, recent news, live data,
     or information that would not be in any uploaded document.
     Use this as a fallback when the document summaries suggest the answer 
     is not in the available documents."""
-    try:
-        search = DuckDuckGoSearchRun()
-        return search.run(query)
-    except Exception as e:
-        return f"Web search is currently unavailable: {str(e)}. Answer from your own knowledge if possible, or inform the user that current information cannot be retrieved."
+    return web_search_run(query)

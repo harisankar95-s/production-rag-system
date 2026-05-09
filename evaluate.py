@@ -8,9 +8,9 @@ from langchain_google_genai import ChatGoogleGenerativeAI,GoogleGenerativeAIEmbe
 from ragas.llms import LangchainLLMWrapper
 from ragas.embeddings import LangchainEmbeddingsWrapper
 from ragas.run_config import RunConfig
-from src.utils import get_embedding_model, get_rerank_model,get_llm,get_eval_llm
-from src.retriever import load_vectorstore, get_hybrid_retriever,get_multi_query_retriever
-from src.pipeline import ask
+from src.utils.utils import get_embedding_model, get_rerank_model,get_llm,get_eval_llm
+from src.rag.retriever import load_vectorstore, get_hybrid_retriever,get_multi_query_retriever
+from src.rag.pipeline import ask
 from src.config import config
 
 os.environ['TRANSFORMERS_VERBOSITY'] = 'error'
