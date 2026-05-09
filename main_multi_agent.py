@@ -1,14 +1,13 @@
-from src.rag.ingestion import ingest
 from src.rag.retriever import load_vectorstore, get_multi_query_retriever
-from src.agent.graph import build_graph
+from src.multi_agent.supervisor import build_supervisor
 from src.utils.rag_components import init_rag_components
 from src.config import config
 from langchain_core.messages import HumanMessage
+from langgraph.checkpoint.memory import MemorySaver
 
 import logging
-from src.utils.utils import get_embedding_model, get_rerank_model, get_llm,load_json
+from src.utils.utils import get_embedding_model, get_rerank_model, get_llm, load_json
 import os
-from langchain_core.messages import AIMessage
 import uuid
 
 logging.basicConfig(
@@ -18,7 +17,6 @@ logging.basicConfig(
 logging.getLogger("httpx").setLevel(logging.WARNING)
 logging.getLogger("sentence_transformers").setLevel(logging.WARNING)
 logging.getLogger("transformers").setLevel(logging.ERROR)
-
 
 
 if __name__ == "__main__":
@@ -31,37 +29,27 @@ if __name__ == "__main__":
     init_rag_components(llm, retriever, rerank_model)
     doc_details = load_json(os.path.join(config.data_dir, 'document_summaries.json'))
 
-
-    graph = build_graph(llm,doc_details)
+    checkpointer = MemorySaver()
+    graph = build_supervisor(llm, doc_details, checkpointer=checkpointer)
 
     thread_id = str(uuid.uuid4())
     run_config = {"configurable": {"thread_id": thread_id}}
 
-    def stream_response(question):
-        for message, metadata in graph.stream(
-        {"messages": [HumanMessage(content=question)]},
-        run_config,
-        stream_mode="messages"):
-            if (isinstance(message, AIMessage) and 
-            message.content and 
-            not message.tool_calls and
-            metadata.get("langgraph_node") == "agent"):
-                content = message.content
-                if isinstance(content, list):
-                    print(content[0].get('text', ''), end="", flush=True)
-                else:
-                    print(content, end="", flush=True)
-
-        print()
+    def get_response(question):
+        result = graph.invoke(
+            {"query": question, "messages": [HumanMessage(content=question)]},
+            run_config
+        )
+        if result.get("answer"):
+            print("Agent:", result["answer"])
+        elif result.get("web_results"):
+            print("Agent:", result["web_results"])
 
     while True:
         question = input("You: ")
-        if not question.strip(): 
+        if not question.strip():
             continue
         if question.lower() in ["exit", "quit"]:
             print("Ending session.")
             break
-        stream_response(question)
-
-
-
+        get_response(question)
