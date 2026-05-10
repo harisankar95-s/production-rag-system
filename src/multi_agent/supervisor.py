@@ -7,6 +7,7 @@ from src.multi_agent.validator import create_validator_node
 from src.multi_agent.prompts import SUPERVISOR_PROMPT,SYNTHESIS_PROMPT
 import json
 from src.utils.utils import extract_content
+from langgraph.types import Send
 
 def create_supervisor_node(llm, doc_summaries):
     def supervisor_node(state: MultiAgentState):
@@ -27,7 +28,16 @@ def create_supervisor_node(llm, doc_summaries):
             route = "rag"
             rag_query = query
             web_query = query
-        return {"route": route, "rag_query": rag_query, "web_query": web_query}
+        return {
+    "route": route,
+    "rag_query": rag_query,
+    "web_query": web_query,
+    "answer": "",        
+    "web_results": "",   
+    "chunks": [],        
+    "verdict": "",       
+    "final_output": ""   
+}
     return supervisor_node
     
 def call_rag_specialist(state: MultiAgentState):
@@ -42,45 +52,53 @@ def call_web_specialist(state: MultiAgentState):
 
 def should_route(state: MultiAgentState):
     route = state["route"]
-    print(f"ROUTING TO: {route}")
     if route == "rag":
-        return "rag"
+        return [Send("rag", state)]
     elif route == "web":
-        return "web"
-    else:
-        return "rag"
-
-def should_continue(state: MultiAgentState):
-    verdict = state["verdict"]
-    route = state["route"]
-    print(f"VERDICT: {verdict}")
-    if route == "both":
-        return "web"  
-    if verdict == "supported":
-        return "end"
-    else:
-        return "web"
+        return [Send("web", state)]
+    elif route == "both":
+        return [Send("rag", state), Send("web", state)]
     
 def create_final_node(llm):
     def final_node(state: MultiAgentState):
         answer = state.get("answer", "")
         web_results = state.get("web_results", "")
         verdict = state.get("verdict", "supported")
+        rag_query = state.get("rag_query", "")
+        web_query = state.get("web_query", "")
+
+        if not answer and not web_results:
+            return {"final_output": "Could not retrieve information from any source."}
+
+        if not web_results:
+            if verdict == "not_supported":
+                return {"final_output": f"Could not find a grounded answer for '{rag_query}' in the documents."}
+            return {"final_output": answer}
+
+        if not answer:
+            return {"final_output": f"From web search: {web_results}"}
 
         if verdict == "not_supported":
-            answer = ""
-
-        if answer and web_results:
-            prompt = SYNTHESIS_PROMPT.format(answer=answer, web_results=web_results)
-            response = llm.invoke(prompt)
-            final_answer = extract_content(response)
-        elif answer:
-            final_answer = answer
+            return {"final_output": (
+                f"RAG could not find a grounded answer for '{rag_query}' in the documents.\n\n"
+                f"Web search result for '{web_query}':\n{web_results}"
+            )}
+        
+        prompt = SYNTHESIS_PROMPT.format(
+            answer=answer,
+            web_results=web_results
+        )
+        response = llm.invoke(prompt)
+        if isinstance(response.content, list):
+            final_text = response.content[0].get('text', '')
         else:
-            final_answer = web_results
+            final_text = response.content
+        return {"final_output": final_text}
 
-        return {"answer": final_answer}
     return final_node
+
+def merge_node(state: MultiAgentState):
+    return {}
     
 def build_supervisor(llm, doc_summaries, checkpointer=None):
     supervisor_node = create_supervisor_node(llm, doc_summaries)
@@ -92,19 +110,15 @@ def build_supervisor(llm, doc_summaries, checkpointer=None):
     graph.add_node("supervisor", supervisor_node)
     graph.add_node("rag", call_rag_specialist)
     graph.add_node("web", call_web_specialist)
+    graph.add_node("merge", merge_node)
     graph.add_node("validator", validator_node)
     graph.add_node("final", final_node)
-    
+
     graph.add_edge(START, "supervisor")
-    graph.add_conditional_edges("supervisor", should_route, {
-        "rag": "rag",
-        "web": "web"
-    })
-    graph.add_edge("rag", "validator")
-    graph.add_conditional_edges("validator", should_continue, {
-        "end": "final",
-        "web": "web"
-    })
-    graph.add_edge("web", "final")
+    graph.add_conditional_edges("supervisor", should_route)
+    graph.add_edge("rag", "merge")
+    graph.add_edge("web", "merge")
+    graph.add_edge("merge", "validator")
+    graph.add_edge("validator", "final")
     graph.add_edge("final", END)
     return graph.compile(checkpointer=checkpointer)

@@ -40,7 +40,9 @@ if __name__ == "__main__":
             {"query": question, "messages": [HumanMessage(content=question)]},
             run_config
         )
-        if result.get("answer"):
+        if result.get("final_output"):
+            print("Agent:", result["final_output"])
+        elif result.get("answer"):
             print("Agent:", result["answer"])
         elif result.get("web_results"):
             print("Agent:", result["web_results"])
