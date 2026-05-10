@@ -11,3 +11,4 @@ class MultiAgentState(TypedDict):
     route: str
     rag_query: str
     web_query: str
+    final_output: str 
