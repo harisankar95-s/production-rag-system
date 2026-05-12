@@ -1,0 +1,83 @@
+{
+  "timestamp": "2026-05-12T08:10:21.713442",
+  "total_questions": 3,
+  "routing_accuracy": 1.0,
+  "avg_faithfulness": 0.833,
+  "avg_answer_relevance": 1.0,
+  "avg_context_relevance": 1.0,
+  "avg_end_to_end_score": 5.0,
+  "avg_latency_seconds": 48.6,
+  "results": [
+    {
+      "question_id": "rag_001",
+      "question": "What is supervised learning?",
+      "expected_route": "rag",
+      "actual_route": "rag",
+      "routing_correct": true,
+      "final_answer": "Supervised learning is a type of machine learning system where the training data provided to the algorithm includes the desired solutions, which are referred to as labels (Page 15). Typical tasks in supervised learning include classification (predicting classes) and regression (predicting target numeric values) (Page 15, Page 90).",
+      "latency_seconds": 44.95,
+      "error": null,
+      "retrieved_chunks": [
+        "based, supervised learning system.\nLets look at each of these criteria a bit more closely.\nSupervised/Unsupervised Learning\nMachine Learning systems can be classified according to the amount and type of\nsupervision they get during training. There are four major categories: supervised\nlearning, unsupervised learning, semisupervised learning, and Reinforcement Learn\ning.\nSupervised learning\nIn supervised learning, the training data you feed to the algorithm includes the desired",
+        "solutions, called labels (Figure 1-5).\nFigure 1-5. A labeled training set for supervised learning (e.g., spam classification)\nA typical supervised learning task is classification . The spam filter is a good example\nof this: it is trained with many example emails along with their class (spam or ham),\nand it must learn how to classify new emails.\nAnother typical task is to predict a target numeric value, such as the price of a car,",
+        "1 By default Scikit-Learn caches downloaded datasets in a directory called $HOME/scikit_learn_data.\nCHAPTER 3\nClassification\nIn Chapter 1  we mentioned that the most common supervised learning tasks are\nregression (predicting values) and classification (predicting classes). In Chapter 2 we\nexplored a regression task, predicting housing values, using various algorithms such\nas Linear Regression, Decision Trees, and Random Forests (which will be explained"
+      ],
+      "rag_answer": "Supervised learning is a type of machine learning system where the training data provided to the algorithm includes the desired solutions, which are referred to as labels (Page 15). Typical tasks in supervised learning include classification (predicting classes) and regression (predicting target numeric values) (Page 15, Page 90).",
+      "faithfulness_score": 1.0,
+      "answer_relevance_score": 1.0,
+      "context_relevance_score": 1.0,
+      "end_to_end_score": 5.0,
+      "judge_reasoning": "The response is accurate, concise, and clearly defines supervised learning while providing the most common examples (classification and regression)."
+    },
+    {
+      "question_id": "rag_002",
+      "question": "What is the difference between batch learning and online learning?",
+      "expected_route": "rag",
+      "actual_route": "rag",
+      "routing_correct": true,
+      "final_answer": "The difference between batch learning and online learning lies in how the systems handle data during training:\n\n*   **Batch learning:** The system is incapable of learning incrementally. It must be trained using all available data, which generally requires significant time and computing resources (Page 22). It is often used when datasets are small enough to fit in memory (Page 46).\n*   **Online learning:** The system learns incrementally by being fed data instances sequentially, either individually or in small groups called mini-batches. The algorithm loads part of the data, runs a training step, and repeats the process until all data has been processed (Page 23, 24). This approach is beneficial for systems where carrying large amounts of training data or using high resources daily is not feasible (Page 23), or when dealing with huge datasets (Page 46). \n\nIt is also noted that online learning is sometimes referred to as incremental learning (Page 24).",
+      "latency_seconds": 37.5,
+      "error": null,
+      "retrieved_chunks": [
+        "games against the champion; AlphaGo was just applying the policy it had learned.\nBatch and Online Learning\nAnother criterion used to classify Machine Learning systems is whether or not the\nsystem can learn incrementally from a stream of incoming data.\nBatch learning\nIn batch learning, the system is incapable of learning incrementally: it must be trained\nusing all the available data. This will generally take a lot of time and computing",
+        "resources (e.g., a smartphone application or a rover on Mars), then carrying around\nlarge amounts of training data and taking up a lot of resources to train for hours\nevery day is a showstopper.\nFortunately, a better option in all these cases is to use algorithms that are capable of\nlearning incrementally.\nOnline learning\nIn online learning, you train the system incrementally by feeding it data instances\nsequentially, either individually or by small groups called mini-batches. Each learning",
+        "Machine Learning is about making machines get better at some task by learning\nfrom data, instead of having to explicitly code rules.\n There are many different types of ML systems: supervised or not, batch or online,\ninstance-based or model-based, and so on.\n In a ML project you gather data in a training set, and you feed the training set to\na learning algorithm. If the algorithm is model-based it tunes some parameters to"
+      ],
+      "rag_answer": "The difference between batch learning and online learning lies in how the systems handle data during training:\n\n*   **Batch learning:** The system is incapable of learning incrementally. It must be trained using all available data, which generally requires significant time and computing resources (Page 22). It is often used when datasets are small enough to fit in memory (Page 46).\n*   **Online learning:** The system learns incrementally by being fed data instances sequentially, either individually or in small groups called mini-batches. The algorithm loads part of the data, runs a training step, and repeats the process until all data has been processed (Page 23, 24). This approach is beneficial for systems where carrying large amounts of training data or using high resources daily is not feasible (Page 23), or when dealing with huge datasets (Page 46). \n\nIt is also noted that online learning is sometimes referred to as incremental learning (Page 24).",
+      "faithfulness_score": 1.0,
+      "answer_relevance_score": 1.0,
+      "context_relevance_score": 1.0,
+      "end_to_end_score": 5.0,
+      "judge_reasoning": "The response accurately defines the core differences between batch and online learning, correctly notes the incremental nature of online learning, and provides helpful context regarding resource usage and data handling."
+    },
+    {
+      "question_id": "rag_003",
+      "question": "What is anomaly detection in unsupervised learning?",
+      "expected_route": "rag",
+      "actual_route": "rag",
+      "routing_correct": true,
+      "final_answer": "In Aurelien Geron's *Hands-on Machine Learning*, anomaly detection (also referred to as outlier detection) is defined as the task of identifying instances that deviate significantly from the norm (Page 269). In this context, the instances that deviate are called anomalies or outliers, while instances that follow the norm are referred to as inliers (Page 269). It is categorized as an unsupervised learning technique, and specific algorithms used for this task include One-class SVM, Isolation Forest, and Gaussian mixture models (Page 17, Page 269).",
+      "latency_seconds": 63.34,
+      "error": null,
+      "retrieved_chunks": [
+        "Unsupervised learning\nIn unsupervised learning , as you might guess, the training data is unlabeled\n(Figure 1-7). The system tries to learn without a teacher.\nFigure 1-7. An unlabeled training set for unsupervised learning\nHere are some of the most important unsupervised learning algorithms (most of\nthese are covered in Chapter 8 and Chapter 9):\n Clustering\n K-Means\n DBSCAN\n Hierarchical Cluster Analysis (HCA)\n Anomaly detection and novelty detection\n One-class SVM\n Isolation Forest",
+        "scale to large numbers of features.\nGaussian mixture models can also be used for anomaly detection. Lets see how.\nAnomaly Detection using Gaussian Mixtures\nAnomaly detection (also called outlier detection) is the task of detecting instances that\ndeviate strongly from the norm. These instances are of course called anomalies or\noutliers, while the normal instances are called inliers. Anomaly detection is very use",
+        "CHAPTER 9\nUnsupervised Learning Techniques\nAlthough most of the applications of Machine Learning today are based on super\nvised learning (and as a result, this is where most of the investments go to), the vast\nmajority of the available data is actually unlabeled: we have the input features X, but\nwe do not have the labels y. Y ann LeCun famously said that if intelligence was a cake,\nunsupervised learning would be the cake, supervised learning would be the icing on"
+      ],
+      "rag_answer": "In Aurelien Geron's *Hands-on Machine Learning*, anomaly detection (also referred to as outlier detection) is defined as the task of identifying instances that deviate significantly from the norm (Page 269). In this context, the instances that deviate are called anomalies or outliers, while instances that follow the norm are referred to as inliers (Page 269). It is categorized as an unsupervised learning technique, and specific algorithms used for this task include One-class SVM, Isolation Forest, and Gaussian mixture models (Page 17, Page 269).",
+      "faithfulness_score": 0.5,
+      "answer_relevance_score": 1.0,
+      "context_relevance_score": 1.0,
+      "end_to_end_score": 5.0,
+      "judge_reasoning": "The response is accurate, concise, and provides relevant context by citing authoritative sources and examples of algorithms, effectively defining anomaly detection in the context of unsupervised learning."
+    }
+  ],
+  "passed_thresholds": {
+    "routing_accuracy": true,
+    "faithfulness": true,
+    "answer_relevance": true,
+    "context_relevance": true,
+    "end_to_end_quality": true
+  },
+  "failed_questions": []
+}

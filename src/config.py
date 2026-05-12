@@ -14,7 +14,10 @@ class Config:
 
     embedding_model: str     = os.getenv("EMBEDDING_MODEL", "all-MiniLM-L6-v2")
 
-    chroma_persist_dir: str  = os.getenv("CHROMA_PERSIST_DIR", "./chroma_db")
+    chroma_persist_dir: str = os.getenv(
+    "CHROMA_PERSIST_DIR",
+    os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "chroma_db"))
+
     collection_name: str     = os.getenv("COLLECTION_NAME", "rag_collection")
 
     chunk_size: int          = int(os.getenv("CHUNK_SIZE", "500"))
@@ -24,7 +27,10 @@ class Config:
     retrieval_k: int         = int(os.getenv("RETRIEVAL_K", "10"))
     multi_query_variants: int    = int(os.getenv("MULTI_QUERY_VARIANTS", "3"))
 
-    data_dir: str            = os.getenv("DATA_DIR", "./data")
+    data_dir: str = os.getenv(
+    "DATA_DIR",
+    os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "data")
+)
 
     rerank_model: str        = os.getenv("RERANK_MODEL", "cross-encoder/ms-marco-MiniLM-L-6-v2")
 

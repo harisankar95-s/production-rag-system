@@ -1,0 +1,246 @@
+[
+  {
+    "id": "rag_001",
+    "question": "What is supervised learning?",
+    "expected_route": "rag",
+    "expected_answer_contains": "training data includes the desired solutions called labels",
+    "source_document": "ml_ebook.pdf",
+    "source_page": 14,
+    "difficulty": "easy"
+  },
+  {
+    "id": "rag_002",
+    "question": "What is the difference between batch learning and online learning?",
+    "expected_route": "rag",
+    "expected_answer_contains": "online learning trains the system incrementally",
+    "source_document": "ml_ebook.pdf",
+    "source_page": 21,
+    "difficulty": "easy"
+  },
+  {
+    "id": "rag_003",
+    "question": "What is anomaly detection in unsupervised learning?",
+    "expected_route": "rag",
+    "expected_answer_contains": "detecting unusual credit card transactions",
+    "source_document": "ml_ebook.pdf",
+    "source_page": 18,
+    "difficulty": "easy"
+  },
+  {
+    "id": "rag_004",
+    "question": "What is the purpose of dimensionality reduction?",
+    "expected_route": "rag",
+    "expected_answer_contains": "simplify the data without losing too much information",
+    "source_document": "ml_ebook.pdf",
+    "source_page": 18,
+    "difficulty": "easy"
+  },
+  {
+    "id": "rag_005",
+    "question": "What is the Normal Equation used for in Linear Regression?",
+    "expected_route": "rag",
+    "expected_answer_contains": "computing the value of theta that minimizes the cost function",
+    "source_document": "ml_ebook.pdf",
+    "source_page": 118,
+    "difficulty": "easy"
+  },
+  {
+    "id": "rag_006",
+    "question": "What is the difference between precision and recall?",
+    "expected_route": "rag",
+    "expected_answer_contains": "precision measures accuracy of positive predictions",
+    "source_document": "ml_ebook.pdf",
+    "source_page": 96,
+    "difficulty": "easy"
+  },
+  {
+    "id": "rag_007",
+    "question": "What does the ROC curve represent?",
+    "expected_route": "rag",
+    "expected_answer_contains": "tradeoff between true positive rate and false positive rate",
+    "source_document": "ml_ebook.pdf",
+    "source_page": 101,
+    "difficulty": "easy"
+  },
+  {
+    "id": "rag_008",
+    "question": "What is Gradient Descent?",
+    "expected_route": "rag",
+    "expected_answer_contains": "optimization algorithm that minimizes the cost function",
+    "source_document": "ml_ebook.pdf",
+    "source_page": 121,
+    "difficulty": "easy"
+  },
+  {
+    "id": "rag_009",
+    "question": "What is PCA used for?",
+    "expected_route": "rag",
+    "expected_answer_contains": "principal component analysis",
+    "source_document": "ml_ebook.pdf",
+    "source_page": 223,
+    "difficulty": "easy"
+  },
+  {
+    "id": "rag_010",
+    "question": "How does gradient descent relate to the learning rate and what happens when it is set too high?",
+    "expected_route": "rag",
+    "expected_answer_contains": "learning rate",
+    "source_document": "ml_ebook.pdf",
+    "source_page": 121,
+    "difficulty": "hard"
+  },
+  {
+    "id": "rag_011",
+    "question": "Who won the race between the hare and the tortoise?",
+    "expected_route": "rag",
+    "expected_answer_contains": "the tortoise had arrived just a minute earlier",
+    "source_document": "short-stories-for-children.pdf",
+    "source_page": 8,
+    "difficulty": "easy"
+  },
+  {
+    "id": "rag_012",
+    "question": "How did Birbal identify the thief among the servants?",
+    "expected_route": "rag",
+    "expected_answer_contains": "one servant's stick was short by an inch",
+    "source_document": "short-stories-for-children.pdf",
+    "source_page": 7,
+    "difficulty": "easy"
+  },
+  {
+    "id": "rag_013",
+    "question": "What lesson did the farmer teach his sons with the bundle of sticks?",
+    "expected_route": "rag",
+    "expected_answer_contains": "you will be strong if you are united",
+    "source_document": "short-stories-for-children.pdf",
+    "source_page": 6,
+    "difficulty": "easy"
+  },
+  {
+    "id": "rag_014",
+    "question": "What warning did the fox give after visiting the lion's cave?",
+    "expected_route": "rag",
+    "expected_answer_contains": "all foot prints going to your cave and none coming out",
+    "source_document": "short-stories-for-children.pdf",
+    "source_page": 10,
+    "difficulty": "easy"
+  },
+  {
+    "id": "rag_015",
+    "question": "What moral can be drawn from both the hare and tortoise story and the boy who cried wolf story about consistency and trust?",
+    "expected_route": "rag",
+    "expected_answer_contains": "",
+    "source_document": "short-stories-for-children.pdf",
+    "source_page": 8,
+    "difficulty": "hard",
+    "note": "Cross-chunk question requiring combining two stories"
+  },
+  {
+    "id": "web_001",
+    "question": "Who won the IPL 2025 title?",
+    "expected_route": "web",
+    "expected_answer_contains": "",
+    "difficulty": "easy"
+  },
+  {
+    "id": "web_002",
+    "question": "What is the latest version of Python released in 2025?",
+    "expected_route": "web",
+    "expected_answer_contains": "",
+    "difficulty": "easy"
+  },
+  {
+    "id": "web_003",
+    "question": "Who is the current CEO of OpenAI?",
+    "expected_route": "web",
+    "expected_answer_contains": "",
+    "difficulty": "easy"
+  },
+  {
+    "id": "web_004",
+    "question": "What AI models did Google release in 2025?",
+    "expected_route": "web",
+    "expected_answer_contains": "",
+    "difficulty": "easy"
+  },
+  {
+    "id": "web_005",
+    "question": "What is the current price of Nvidia stock?",
+    "expected_route": "web",
+    "expected_answer_contains": "",
+    "difficulty": "easy"
+  },
+  {
+    "id": "web_006",
+    "question": "What new machine learning frameworks were released or became popular in 2025?",
+    "expected_route": "web",
+    "expected_answer_contains": "",
+    "difficulty": "hard",
+    "note": "Sounds like it could be in ML book but cannot be — book predates 2025"
+  },
+  {
+    "id": "web_007",
+    "question": "What are the latest benchmarks for large language models in 2025?",
+    "expected_route": "web",
+    "expected_answer_contains": "",
+    "difficulty": "hard",
+    "note": "Edge case — sounds technical like RAG but answer only exists on web"
+  },
+  {
+    "id": "both_001",
+    "question": "What is gradient descent and what are the most popular optimizers used in deep learning in 2025?",
+    "expected_route": "both",
+    "rag_query": "What is gradient descent?",
+    "web_query": "most popular deep learning optimizers 2025",
+    "expected_answer_contains": "optimization",
+    "source_document": "ml_ebook.pdf",
+    "source_page": 121,
+    "difficulty": "easy"
+  },
+  {
+    "id": "both_002",
+    "question": "What is supervised learning and which company released the most downloaded supervised learning library in 2025?",
+    "expected_route": "both",
+    "rag_query": "What is supervised learning?",
+    "web_query": "most downloaded supervised learning library 2025",
+    "expected_answer_contains": "labels",
+    "source_document": "ml_ebook.pdf",
+    "source_page": 14,
+    "difficulty": "easy"
+  },
+  {
+    "id": "both_003",
+    "question": "What is PCA and are there any new dimensionality reduction techniques that outperform it in 2025?",
+    "expected_route": "both",
+    "rag_query": "What is PCA and how does it work?",
+    "web_query": "dimensionality reduction techniques better than PCA 2025",
+    "expected_answer_contains": "principal component",
+    "source_document": "ml_ebook.pdf",
+    "source_page": 223,
+    "difficulty": "easy"
+  },
+  {
+    "id": "both_004",
+    "question": "What is the learning rate in gradient descent and what is the current best practice for learning rate scheduling in transformer models in 2025?",
+    "expected_route": "both",
+    "rag_query": "What is the learning rate in gradient descent?",
+    "web_query": "best practice learning rate scheduling transformer models 2025",
+    "expected_answer_contains": "learning rate",
+    "source_document": "ml_ebook.pdf",
+    "source_page": 121,
+    "difficulty": "hard",
+    "note": "Edge case — learning rate appears in both question halves, supervisor may route all to RAG"
+  },
+  {
+    "id": "both_005",
+    "question": "What does the ROC curve measure and which machine learning competition platform currently uses it as the primary evaluation metric in 2025?",
+    "expected_route": "both",
+    "rag_query": "What does the ROC curve measure?",
+    "web_query": "machine learning competition platform using ROC AUC as primary metric 2025",
+    "expected_answer_contains": "true positive rate",
+    "source_document": "ml_ebook.pdf",
+    "source_page": 101,
+    "difficulty": "hard",
+    "note": "Edge case — both halves sound technical, supervisor may route entirely to RAG"
+  }
+]
