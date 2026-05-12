@@ -74,4 +74,4 @@ models/
 
 test*.py
 temp*.py".claude/" 
-".claude/" 
+.claude/
