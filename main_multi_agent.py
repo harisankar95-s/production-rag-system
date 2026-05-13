@@ -40,6 +40,8 @@ if __name__ == "__main__":
             {"query": question, "messages": [HumanMessage(content=question)]},
             run_config
         )
+        if llm.using_fallback:
+            print("Note: Response generated using local fallback model due to API unavailability. Quality may vary.")
         if result.get("final_output"):
             print("Agent:", result["final_output"])
         elif result.get("answer"):

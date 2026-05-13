@@ -7,6 +7,7 @@ from langchain_core.retrievers import BaseRetriever
 from langchain_core.callbacks import CallbackManagerForRetrieverRun
 from langchain_core.documents import Document
 from src.utils.utils import extract_content
+from src.utils.timer import timer
 
 logger = logging.getLogger(__name__)
 
@@ -55,7 +56,8 @@ def get_bm25_retriever(vector_store):
 
 def get_hybrid_retriever(vectorstore):
     logger.info("Building hybrid retriever")
-    bm25_retriever = get_bm25_retriever(vectorstore)
+    with timer("bm25_retriever_init"):
+         bm25_retriever = get_bm25_retriever(vectorstore)
     vector_retriever = get_retriever(vectorstore)
     logger.info("Hybrid retriever ready")
     return HybridRetriever(

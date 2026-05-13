@@ -5,6 +5,8 @@ from sentence_transformers import CrossEncoder
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_ollama import OllamaLLM
 import json
+from src.utils.llm_fallback import LLMWithFallback
+from langchain_ollama import ChatOllama
 
 logger = logging.getLogger(__name__)
 
@@ -29,15 +31,29 @@ def get_rerank_model():
     logger.info("Rerank model loaded")
     return model
 
+# def get_llm():
+#     logger.info(f"Loading LLM provider: {config.llm_provider}")
+#     if config.llm_provider == "ollama":
+#         llm = OllamaLLM(model=config.ollama_model, base_url=config.ollama_base_url)
+#     elif config.llm_provider == "gemini":
+#         llm = ChatGoogleGenerativeAI(model=config.gemini_model, google_api_key=config.google_api_key)
+#     else:
+#         raise ValueError(f"Unsupported LLM provider: {config.llm_provider}")
+#     logger.info(f"LLM loaded: {config.llm_provider}")
+#     return llm
+
 def get_llm():
     logger.info(f"Loading LLM provider: {config.llm_provider}")
     if config.llm_provider == "ollama":
-        llm = OllamaLLM(model=config.ollama_model, base_url=config.ollama_base_url)
+        llm_main = ChatOllama(model=config.ollama_model, base_url=config.ollama_base_url)
+        llm_fallback = ChatGoogleGenerativeAI(model=config.gemini_model, google_api_key=config.google_api_key)
     elif config.llm_provider == "gemini":
-        llm = ChatGoogleGenerativeAI(model=config.gemini_model, google_api_key=config.google_api_key)
+        llm_main = ChatGoogleGenerativeAI(model=config.gemini_model, google_api_key=config.google_api_key)
+        llm_fallback = ChatOllama(model=config.ollama_model, base_url=config.ollama_base_url)
     else:
         raise ValueError(f"Unsupported LLM provider: {config.llm_provider}")
     logger.info(f"LLM loaded: {config.llm_provider}")
+    llm = LLMWithFallback(llm_main,llm_fallback)
     return llm
 
 
