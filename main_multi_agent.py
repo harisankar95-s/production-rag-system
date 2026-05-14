@@ -4,6 +4,7 @@ from src.utils.rag_components import init_rag_components
 from src.config import config
 from langchain_core.messages import HumanMessage
 from langgraph.checkpoint.memory import MemorySaver
+from src.utils.cache import SemanticCache
 
 import logging
 from src.utils.utils import get_embedding_model, get_rerank_model, get_llm, load_json
@@ -31,23 +32,38 @@ if __name__ == "__main__":
 
     checkpointer = MemorySaver()
     graph = build_supervisor(llm, doc_details, checkpointer=checkpointer)
+    cache = SemanticCache(embedding_model)
 
     thread_id = str(uuid.uuid4())
     run_config = {"configurable": {"thread_id": thread_id}}
 
     def get_response(question):
+        cached = cache.get(question)
+        if cached:
+            print("Agent (cached):", cached)
+            return
+
         result = graph.invoke(
             {"query": question, "messages": [HumanMessage(content=question)]},
             run_config
         )
+
         if llm.using_fallback:
             print("Note: Response generated using local fallback model due to API unavailability. Quality may vary.")
+
+        answer = None
+        route = result.get("route", "unknown")
+
         if result.get("final_output"):
-            print("Agent:", result["final_output"])
+            answer = result["final_output"]
         elif result.get("answer"):
-            print("Agent:", result["answer"])
+            answer = result["answer"]
         elif result.get("web_results"):
-            print("Agent:", result["web_results"])
+            answer = result["web_results"]
+
+        if answer:
+            cache.set(question, answer, route)
+            print("Agent:", answer)
 
     while True:
         question = input("You: ")
