@@ -5,6 +5,7 @@ from src.config import config
 from langchain_core.messages import HumanMessage
 from langgraph.checkpoint.memory import MemorySaver
 from src.utils.cache import SemanticCache
+from src.utils.guardrails import sanitize_input
 
 import logging
 from src.utils.utils import get_embedding_model, get_rerank_model, get_llm, load_json
@@ -42,6 +43,9 @@ if __name__ == "__main__":
             cached = cache.get(question)
             if cached:
                 print("Agent (cached):", cached)
+                return
+            if sanitize_input(question) is None:
+                print("Agent: I can't process that request.")
                 return
 
             result = graph.invoke(
