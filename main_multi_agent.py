@@ -6,6 +6,7 @@ from langchain_core.messages import HumanMessage
 from langgraph.checkpoint.memory import MemorySaver
 from src.utils.cache import SemanticCache
 from src.utils.guardrails import sanitize_input
+from langfuse.langchain import CallbackHandler
 
 import logging
 from src.utils.utils import get_embedding_model, get_rerank_model, get_llm, load_json
@@ -47,11 +48,12 @@ if __name__ == "__main__":
             if sanitize_input(question) is None:
                 print("Agent: I can't process that request.")
                 return
+            langfuse_handler = CallbackHandler()
 
             result = graph.invoke(
-                {"query": question, "messages": [HumanMessage(content=question)]},
-                run_config
-            )
+    {"query": question, "messages": [HumanMessage(content=question)]},
+    {**run_config, "callbacks": [langfuse_handler]}
+)
 
             if llm.using_fallback:
                 print("Note: Response generated using local fallback model due to API unavailability. Quality may vary.")
