@@ -62,7 +62,6 @@ data/*.csv
 *.pdf
 
 # Vector store / ChromaDB
-chroma_db/
 
 # Logs
 *.log
@@ -75,3 +74,6 @@ models/
 test*.py
 temp*.py".claude/" 
 .claude/
+memory.db
+memory.db-shm
+memory.db-wal
