@@ -34,8 +34,10 @@ if prompt := st.chat_input("Ask me anything about your documents..."):
                     response = requests.post(
                         "http://127.0.0.1:8000/ask",
                         json={"question": prompt, "thread_id": st.session_state.thread_id},
-                        timeout=120
+                        timeout=300
                     )
+                    st.write(f"Status: {response.status_code}")
+                    st.write(f"Response: {response.text[:200]}")
                     answer = response.json()["answer"]
                     break
                 except Exception as e:
