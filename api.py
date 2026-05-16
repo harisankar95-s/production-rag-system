@@ -15,3 +15,7 @@ class AskResponse(BaseModel):
 def ask(request: AskRequest):
     answer = get_answer(request.question, request.thread_id)
     return AskResponse(answer=answer)
+
+@app.get("/health")
+def health():
+    return {"status": "ok"}

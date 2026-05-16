@@ -5,6 +5,12 @@ import time
 
 st.title("AI Research Assistant")
 
+try:
+    health = requests.get("http://127.0.0.1:8000/health", timeout=5)
+    st.sidebar.success(f"FastAPI: {health.json()}")
+except Exception as e:
+    st.sidebar.error(f"FastAPI unreachable: {e}")
+
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
