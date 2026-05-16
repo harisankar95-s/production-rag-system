@@ -1,5 +1,4 @@
 import os
-import uuid
 from langchain_core.messages import HumanMessage
 from langgraph.checkpoint.memory import MemorySaver
 from langfuse.langchain import CallbackHandler
@@ -25,11 +24,8 @@ checkpointer = MemorySaver()
 graph = build_supervisor(llm, doc_details, checkpointer=checkpointer)
 cache = SemanticCache(embedding_model)
 
-thread_id = str(uuid.uuid4())
-run_config = {"configurable": {"thread_id": thread_id}, "recursion_limit": 10}
-
-
-def get_answer(question: str) -> str:
+def get_answer(question: str,thread_id: str) -> str:
+    run_config = {"configurable": {"thread_id": thread_id}, "recursion_limit": 10}
     try:
         cached = cache.get(question)
         if cached:
