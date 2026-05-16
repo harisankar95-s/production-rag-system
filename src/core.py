@@ -1,8 +1,8 @@
 import os
 from langchain_core.messages import HumanMessage
 from langgraph.checkpoint.memory import MemorySaver
+from langgraph.checkpoint.sqlite import SqliteSaver
 from langfuse.langchain import CallbackHandler
-
 from src.rag.retriever import load_vectorstore, get_multi_query_retriever
 from src.multi_agent.supervisor import build_supervisor
 from src.utils.rag_components import init_rag_components
@@ -10,6 +10,7 @@ from src.utils.cache import SemanticCache
 from src.utils.guardrails import sanitize_input
 from src.utils.utils import get_embedding_model, get_rerank_model, get_llm, load_json
 from src.config import config
+import sqlite3
 
 embedding_model = get_embedding_model()
 rerank_model = get_rerank_model()
@@ -20,7 +21,9 @@ retriever = get_multi_query_retriever(vector_store, llm)
 init_rag_components(llm, retriever, rerank_model)
 doc_details = load_json(os.path.join(config.data_dir, 'document_summaries.json'))
 
-checkpointer = MemorySaver()
+
+conn = sqlite3.connect("memory.db", check_same_thread=False)
+checkpointer = SqliteSaver(conn)
 graph = build_supervisor(llm, doc_details, checkpointer=checkpointer)
 cache = SemanticCache(embedding_model)
 
