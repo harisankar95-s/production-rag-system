@@ -22,7 +22,7 @@ if prompt := st.chat_input("Ask me anything about your documents..."):
     with st.chat_message("assistant"):
         with st.spinner("Thinking..."):
             response = requests.post(
-                "http://localhost:8000/ask",
+                "http://127.0.0.1:8000/ask",
                 json={"question": prompt, "thread_id": st.session_state.thread_id}
             )
             answer = response.json()["answer"]
