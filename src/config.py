@@ -18,7 +18,7 @@ class Config:
     "CHROMA_PERSIST_DIR",
     os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "chroma_db"))
 
-    collection_name: str     = os.getenv("COLLECTION_NAME", "rag_collection")
+    collection_name: str = os.getenv("COLLECTION_NAME", "pdf_collection")
 
     chunk_size: int          = int(os.getenv("CHUNK_SIZE", "500"))
     chunk_overlap: int       = int(os.getenv("CHUNK_OVERLAP", "50"))
