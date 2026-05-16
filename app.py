@@ -36,8 +36,6 @@ if prompt := st.chat_input("Ask me anything about your documents..."):
                         json={"question": prompt, "thread_id": st.session_state.thread_id},
                         timeout=300
                     )
-                    st.write(f"Status: {response.status_code}")
-                    st.write(f"Response: {response.text[:200]}")
                     answer = response.json()["answer"]
                     break
                 except Exception as e:
